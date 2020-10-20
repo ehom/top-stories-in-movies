@@ -1,0 +1,32 @@
+.page-title {
+  font-family: serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.imageContainer {
+  background-color: #333;
+  /* width: 450px;
+  height: 300px; */
+  overflow: hidden;
+  border: 2px #333 solid;
+}
+
+@keyframes specialEffect {
+  25% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  75% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.imageContainer:hover {
+  animation: specialEffect 5s;
+}
