@@ -18,6 +18,10 @@ function App(properties) {
   moment.locale(navigator.language);
   const articles = Helper.processArticles(properties.data.results);
 
+  // TODO
+  // Put the string in application string resource
+  document.title = "Top Stories in Movies";
+
   return (
     <React.Fragment>
       <div className="jumbotron pt-4 pb-4">
