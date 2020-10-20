@@ -1,8 +1,4 @@
-var CORS_ANYWHERE = function CORS_ANYWHERE(url) {
-  return 'https://cors-anywhere.herokuapp.com/' + url;
-};
-
-var HEADLINES = CORS_ANYWHERE('https://us-central1-ehom-nyt-demo.cloudfunctions.net/fetch-news');
+var HEADLINES = 'https://raw.githubusercontent.com/ehom/external-data/master/nyt/movies.json';
 
 (function (url) {
   fetch(url).then(function (response) {

@@ -1,8 +1,4 @@
-const CORS_ANYWHERE = (url) => {
-  return `https://cors-anywhere.herokuapp.com/${url}`;
-};
-
-const HEADLINES = CORS_ANYWHERE('https://us-central1-ehom-nyt-demo.cloudfunctions.net/fetch-news');
+const HEADLINES = 'https://raw.githubusercontent.com/ehom/external-data/master/nyt/movies.json';
 
 ((url) => {
   fetch(url)
