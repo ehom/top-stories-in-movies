@@ -14,13 +14,13 @@ const HEADLINES = CORS_ANYWHERE('https://us-central1-ehom-nyt-demo.cloudfunction
     .catch(console.error);
 })(HEADLINES);
 
+// TODO
+// Put the string in application string resource
+document.title = "Top Stories in Movies";
+
 function App(properties) {
   moment.locale(navigator.language);
   const articles = Helper.processArticles(properties.data.results);
-
-  // TODO
-  // Put the string in application string resource
-  document.title = "Top Stories in Movies";
 
   return (
     <React.Fragment>
