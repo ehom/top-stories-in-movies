@@ -69,7 +69,7 @@ var Headlines = function Headlines(_ref) {
       articles
     );
   }
-  return React.createElement(Fragment, null);
+  return React.createElement(React.Fragment, null);
 };
 
 var TodaysDate = function TodaysDate(_ref2) {
