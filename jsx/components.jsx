@@ -45,7 +45,7 @@ const Headlines = ({ source }) => {
     const articles = Helper.processArticles(source);
     return <React.Fragment>{articles}</React.Fragment>;
   }
-  return <Fragment></Fragment>;
+  return <React.Fragment></React.Fragment>;
 };
 
 const TodaysDate = ({ locale }) => {
