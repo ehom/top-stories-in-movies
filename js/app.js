@@ -1,120 +1,76 @@
-var HEADLINES = 'https://raw.githubusercontent.com/ehom/external-data/master/nyt/movies.json';
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-(function (url) {
-  fetch(url).then(function (response) {
-    return response.json();
-  }).then(function (json_data) {
-    console.debug(json_data);
-    ReactDOM.render(React.createElement(App, { data: json_data }), document.getElementById('app'));
-  }).catch(console.error);
-})(HEADLINES);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// TODO
-// Put the string in application string resource
-document.title = "Top Stories in Movies";
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function App(properties) {
-  moment.locale(navigator.language);
-  var articles = Helper.processArticles(properties.data.results);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  return React.createElement(
-    React.Fragment,
-    null,
-    React.createElement(
-      'div',
-      { className: 'jumbotron pt-4 pb-4' },
-      React.createElement(
-        'h1',
-        { className: 'display-5 page-title' },
-        'Top Stories in ',
-        properties.data.section,
-        React.createElement(
-          'a',
-          { href: 'https://developer.nytimes.com/', className: 'float-right' },
-          React.createElement('img', { src: 'https://developer.nytimes.com/files/poweredby_nytimes_200b.png?v=1583354208360' })
-        )
-      ),
-      React.createElement(TodaysDate, null)
-    ),
-    React.createElement(
-      'div',
-      { className: 'row' },
-      articles
-    )
-  );
-}
+var HEADLINES = "https://raw.githubusercontent.com/ehom/external-data/master/nyt/movies.json";
 
-function TodaysDate() {
-  var options = {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  };
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
 
-  var today = new Intl.DateTimeFormat(navigator.language, options).format(new Date());
-  return React.createElement(
-    React.Fragment,
-    null,
-    today
-  );
-}
+  function App(props) {
+    _classCallCheck(this, App);
 
-var Helper = {
-  processArticles: function processArticles(articles) {
-    var getThumbnail = function getThumbnail(article) {
-      var lastImage = article.multimedia.length - 1;
-      return article.multimedia ? article.multimedia[lastImage].url : "";
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {
+      source: {}
     };
+    moment.locale(props.language);
+    return _this;
+  }
 
-    var calcHowLongAgo = function calcHowLongAgo(now, article) {
-      var past = moment(new Date(article.updated_date));
-      return past.from(now);
-    };
+  _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
 
-    var now = moment(new Date());
-
-    var processed = articles.map(function (article) {
-      var image = getThumbnail(article);
-      var howLongAgo = calcHowLongAgo(now, article);
+      fetch(HEADLINES).then(function (response) {
+        return response.json();
+      }).then(function (json_data) {
+        console.debug("fetched: ", json_data);
+        _this2.setState({
+          source: json_data
+        });
+      }).catch(console.error);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      console.debug("about to render...");
 
       return React.createElement(
-        'div',
-        { className: 'card col-sm-4 mb-3' },
+        React.Fragment,
+        null,
         React.createElement(
-          'div',
-          { 'class': 'imageContainer' },
-          React.createElement('img', { className: 'card-img-top', src: image, alt: '' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'card-body' },
+          "div",
+          { className: "jumbotron pt-4 pb-4" },
           React.createElement(
-            'p',
-            { className: 'card-text' },
+            "h1",
+            { className: "display-5 page-title" },
+            "Top Stories in ",
+            this.state.source.section,
             React.createElement(
-              'a',
-              { href: article.url, target: '_blank' },
-              article.title
+              "a",
+              { href: "https://developer.nytimes.com/", className: "float-right" },
+              React.createElement("img", { src: "https://developer.nytimes.com/files/poweredby_nytimes_200b.png?v=1583354208360" })
             )
           ),
-          React.createElement(
-            'p',
-            { className: 'card-text' },
-            article.abstract
-          )
+          React.createElement(TodaysDate, { locale: this.props.language })
         ),
         React.createElement(
-          'ul',
-          { 'class': 'list-group list-group-flush' },
-          React.createElement(
-            'li',
-            { className: 'list-group-item' },
-            howLongAgo
-          )
+          "div",
+          { className: "row" },
+          React.createElement(Headlines, { source: this.state.source.results })
         )
       );
-    });
-    return processed;
-  }
-};
+    }
+  }]);
+
+  return App;
+}(React.Component);
+
+ReactDOM.render(React.createElement(App, { language: navigator.language }), document.getElementById("app"));
