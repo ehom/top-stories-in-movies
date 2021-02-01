@@ -41,11 +41,12 @@ const Helper = {
 
 const Headlines = ({ source }) => {
   console.debug("source:", source);
+
+  let articles = null;
   if (source) {
-    const articles = Helper.processArticles(source);
-    return <React.Fragment>{articles}</React.Fragment>;
+    articles = Helper.processArticles(source);
   }
-  return <React.Fragment></React.Fragment>;
+  return <React.Fragment>{articles}</React.Fragment>;
 };
 
 const TodaysDate = ({ locale }) => {
