@@ -1,3 +1,5 @@
+const APP_NAME = "Top Stories in Movies";
+
 const HEADLINES =
   "https://raw.githubusercontent.com/ehom/external-data/master/nyt/movies.json";
 
@@ -43,6 +45,8 @@ class App extends React.Component {
     );
   }
 }
+
+document.title = APP_NAME;
 
 ReactDOM.render(
   <App language={navigator.language} />,
