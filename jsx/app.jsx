@@ -13,15 +13,27 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(HEADLINES)
+    const storage = window.sessionStorage;
+
+    if (storage.getItem('headlines')) {
+      let data = storage.getItem('headlines');
+
+      console.debug("use cache");
+      this.setState({
+        source: JSON.parse(data)
+      });
+    } else {
+      fetch(HEADLINES)
       .then((response) => response.json())
       .then((json_data) => {
         console.debug("fetched: ", json_data);
+        storage.setItem('headlines', JSON.stringify(json_data));
         this.setState({
           source: json_data
         });
       })
       .catch(console.error);
+    }
   }
 
   render() {
