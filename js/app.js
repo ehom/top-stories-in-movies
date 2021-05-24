@@ -6,6 +6,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var APP_NAME = "Top Stories in Movies";
+
 var HEADLINES = "https://raw.githubusercontent.com/ehom/external-data/master/nyt/movies.json";
 
 var App = function (_React$Component) {
@@ -28,14 +30,26 @@ var App = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      fetch(HEADLINES).then(function (response) {
-        return response.json();
-      }).then(function (json_data) {
-        console.debug("fetched: ", json_data);
-        _this2.setState({
-          source: json_data
+      var storage = window.sessionStorage;
+
+      if (storage.getItem('headlines')) {
+        var data = storage.getItem('headlines');
+
+        console.debug("use cache");
+        this.setState({
+          source: JSON.parse(data)
         });
-      }).catch(console.error);
+      } else {
+        fetch(HEADLINES).then(function (response) {
+          return response.json();
+        }).then(function (json_data) {
+          console.debug("fetched: ", json_data);
+          storage.setItem('headlines', JSON.stringify(json_data));
+          _this2.setState({
+            source: json_data
+          });
+        }).catch(console.error);
+      }
     }
   }, {
     key: "render",
@@ -72,5 +86,7 @@ var App = function (_React$Component) {
 
   return App;
 }(React.Component);
+
+document.title = APP_NAME;
 
 ReactDOM.render(React.createElement(App, { language: navigator.language }), document.getElementById("app"));
