@@ -30,3 +30,7 @@
 .imageContainer:hover {
   animation: specialEffect 5s;
 }
+
+a:visited {
+  color: purple;
+}
